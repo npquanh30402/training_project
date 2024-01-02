@@ -1,0 +1,18 @@
+.admin-nav ul li {
+    background: antiquewhite;
+    margin: 1em;
+}
+
+.add-product {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.card-body {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.table-container {
+    overflow: auto;
+}

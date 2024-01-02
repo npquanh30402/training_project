@@ -1,0 +1,46 @@
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled),
+button:not(:disabled) {
+    white-space: nowrap;
+}
+
+/* Product Details */
+.product-details img {
+    max-height: 500px;
+}
+
+.card-body {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.admin-nav ul li {
+    background: antiquewhite;
+    margin: 1em;
+}
+
+.img-profile {
+    height: 2rem;
+    width: 2rem;
+}
+
+.card-img-top {
+    width: 22em;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+.user-name-text {
+    font-size: 2rem;
+}
+
+.nav-item,
+.nav-link {
+    align-self: center;
+}
+
+input.form-control {
+    width: 60%;
+    margin: auto;
+}
