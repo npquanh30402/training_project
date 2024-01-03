@@ -14,7 +14,9 @@ class ProductApiController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        $products = Product::all();
+
+        return response()->json($products);
     }
 
     /**
@@ -22,7 +24,32 @@ class ProductApiController extends Controller
      */
     public function store(Request $request)
     {
-        return Product::create($request->only(['name', 'size', 'color', 'description', 'brand', 'price']));
+        //return Product::create($request->only(['name', 'size', 'color', 'description', 'brand', 'price']));
+
+        $newProduct = new Product();
+        $newProduct->setName($request->input('name'));
+        $newProduct->setSize($request->input('size'));
+        $newProduct->setColor($request->input('color'));
+        $newProduct->setDescription($request->input('description'));
+        $newProduct->setBrand($request->input('brand'));
+        $newProduct->setPrice($request->input('price'));
+        $newProduct->setImage("none.png");
+        $newProduct->save();
+
+        if ($request->hasFile('image')) {
+            $image_name = $newProduct->getId() . '.' . $request->file('image')->extension();
+
+            Storage::disk('public')->put(
+                '/img/products/' . $image_name,
+                file_get_contents($request->file('image')->getRealPath())
+            );
+        }
+        $newProduct->setImage($image_name);
+        $newProduct->save();
+
+        return response()->json([
+            'message' => 'Đã thêm sản phẩm thành công!',
+        ], 201);
     }
 
     /**
@@ -30,7 +57,15 @@ class ProductApiController extends Controller
      */
     public function show(string $id)
     {
-        return Product::findOrFail($id);
+        $product = Product::findOrFail($id);
+
+        if (!empty($product)) {
+            return response()->json($product);
+        } else {
+            return response()->json([
+                'message' => "Không tìm thấy sản phẩm!",
+            ], 404);
+        }
     }
 
     /**
@@ -38,9 +73,42 @@ class ProductApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $pro = Product::findOrFail($id);
+        /*$pro = Product::findOrFail($id);
         $pro->update($request->only(['name', 'size', 'color', 'description', 'brand', 'price']));
-        return $pro;
+        return $pro;*/
+
+        $newProduct = Product::findOrFail($id);
+
+        if (!empty($newProduct)) {
+            $newProduct->setName($request->input('name'));
+            $newProduct->setSize($request->input('size'));
+            $newProduct->setColor($request->input('color'));
+            $newProduct->setDescription($request->input('description'));
+            $newProduct->setBrand($request->input('brand'));
+            $newProduct->setPrice($request->input('price'));
+
+            if ($request->hasFile('image')) {
+                $image_name = $newProduct->getId() . '.' . $request->file('image')->extension();
+
+                Storage::disk('public')->put(
+                    '/img/products/' . $image_name,
+                    file_get_contents($request->file('image')->getRealPath())
+                );
+
+
+                $newProduct->setImage($image_name);
+            }
+
+            $newProduct->save();
+
+            return response()->json([
+                'message' => 'Đã cập nhật sản phẩm thành công!',
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Không tìm thấy sản phẩm!",
+            ], 404);
+        }
     }
 
     /**
@@ -48,6 +116,16 @@ class ProductApiController extends Controller
      */
     public function destroy(string $id)
     {
-        Product::findOrFail($id)->delete();
+        if (Product::where('id', $id)->exists()) {
+            Product::findOrFail($id)->delete();
+
+            return response()->json([
+                'message' => 'Đã xóa sản phẩm thành công!',
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Không tìm thấy sản phẩm!",
+            ], 404);
+        }
     }
 }
