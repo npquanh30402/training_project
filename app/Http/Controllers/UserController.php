@@ -59,9 +59,10 @@ class UserController extends Controller
                 '/img/users/' . $image_name,
                 file_get_contents($request->file('image')->getRealPath())
             );
+
+            $newUser->setImage($image_name);
+            $newUser->save();
         }
-        $newUser->setImage($image_name);
-        $newUser->save();
 
         return redirect()->route('home.index');
     }
