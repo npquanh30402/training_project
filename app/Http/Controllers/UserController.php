@@ -49,7 +49,7 @@ class UserController extends Controller
         $newUser->setPassword(Hash::make($request->input('password')));
         $newUser->setPhoneNumber($request->input('phone_number'));
         $newUser->setImage("none.png");
-        $newUser->setRoleId(2);
+        $newUser->setRoleId($request->input('role_id'));
         $newUser->save();
 
         if ($request->hasFile('image')) {

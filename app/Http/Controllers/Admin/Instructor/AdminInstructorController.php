@@ -29,12 +29,13 @@ class AdminInstructorController extends Controller
         return back();
     }
 
-    public function edit($id, $user_type)
+    public function edit($user_type, $id)
     {
         $viewData = [];
         $viewData['title'] = $user_type == 3 ? "Quản lý Instructor" : "Quản lý User";
         $viewData['user'] = User::findOrFail($id);
         $viewData['edit_title'] = $user_type == 3 ? "Sửa Instructor" : "Sửa User";
+        $viewData['type_of_user'] = $user_type;
 
         $roles = Role::pluck('role_name', 'id')->toArray();
 
@@ -45,8 +46,6 @@ class AdminInstructorController extends Controller
 
     public function update(Request $request, $id)
     {
-        User::validate($request);
-
         $newUser = User::findOrFail($id);
 
         $newUser->setName($request->input('name'));
@@ -68,6 +67,6 @@ class AdminInstructorController extends Controller
 
         $newUser->save();
 
-        return redirect()->route('admin.instructor.index');
+        return redirect()->route('admin.instructor.index', ['user_type' => $request->input('user_type')]);
     }
 }

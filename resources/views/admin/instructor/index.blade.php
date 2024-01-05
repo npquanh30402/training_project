@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 @section('title', $viewData['title'])
 @section('content')
-    <a href="#"><button type="button" class="btn btn-primary btn-lg">{{ $viewData['add_title'] }}</button></a>
+    <a href="{{ route('user.register') }}"><button type="button"
+            class="btn btn-primary btn-lg">{{ $viewData['add_title'] }}</button></a>
     <div class="card">
         <div class="card-header">
             {{ $viewData['subtitle'] }}

@@ -40,8 +40,8 @@ Route::middleware('admin')->group(function () {
     Route::middleware('instructor')->group(function () {
         Route::get('/admin/instructors/{user_type}', 'App\Http\Controllers\Admin\Instructor\AdminInstructorController@index')->name('admin.instructor.index');
         Route::get('/admin/instructors/{user_type}/{id}/edit', 'App\Http\Controllers\Admin\Instructor\AdminInstructorController@edit')->name('admin.instructor.edit');
-        Route::put('/admin/instructors/{id}/update', 'App\Http\Controllers\Admin\AdminInstructorController@update')->name('admin.instructor.update');
-        Route::delete('/admin/instructors/delete/{id}', 'App\Http\Controllers\Admin\AdminInstructorController@delete')->name('admin.instructor.delete');
+        Route::put('/admin/instructors/{id}/update', 'App\Http\Controllers\Admin\Instructor\AdminInstructorController@update')->name('admin.instructor.update');
+        Route::delete('/admin/instructors/delete/{id}', 'App\Http\Controllers\Admin\Instructor\AdminInstructorController@delete')->name('admin.instructor.delete');
     });
 });
 

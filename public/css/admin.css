@@ -16,3 +16,9 @@
 .table-container {
     overflow: auto;
 }
+
+.img-pro {
+    width: 40%;
+    height: 60%;
+    margin: auto;
+}
